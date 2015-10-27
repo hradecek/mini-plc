@@ -1,0 +1,84 @@
+﻿<Window x:Class="SOC.VyberWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Vyber"         
+        ResizeMode="NoResize" 
+        Width="469" Height="175"
+        Topmost="True" 
+        AllowsTransparency="True"
+        WindowStyle="None" 
+        Background="Transparent"
+        BorderThickness="1"
+        BorderBrush="Black"
+        MouseLeave="Window_MouseLeave" ShowInTaskbar="False">    
+    <Window.Resources>
+        <ResourceDictionary Source="Resources.xaml" />
+    </Window.Resources>
+    <Grid Background="{DynamicResource choiceBackground}">
+        <Grid.ColumnDefinitions>            
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="6" />
+        </Grid.RowDefinitions>
+        <Label Content="Výber" Grid.Column="0" Grid.Row="0" FontSize="14" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <GroupBox Header="Kontakty" x:Name="groupBoxKontakt" Grid.Column="0" Grid.Row="1" Width="Auto" Height="Auto" Margin="5,0,0,0">             
+            <StackPanel Orientation="Vertical">
+                <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="Kontakt" x:Name="radioKontakt" Margin="5" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Checked="radioKontakt_Checked" />
+                <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="Negovaný" x:Name="radioKontaktNeg" Margin="5" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Checked="radioKontakt_Checked" />
+            </StackPanel>            
+        </GroupBox>
+        <GroupBox Header="Číslo" x:Name="groupBoxCisla" Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Width="Auto" Height="Auto" Margin="5,0,0,0">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="1" x:Name="radioCislo1" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioKontakt_Checked" IsEnabled="True" />
+                <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="2" x:Name="radioCislo2" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioKontakt_Checked" />
+                <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="3" x:Name="radioCislo3" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioKontakt_Checked" />
+                <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="4" x:Name="radioCislo4" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioKontakt_Checked" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Markery" x:Name="groupBoxMerker" Grid.Column="2" Grid.Row="1" Width="Auto" Height="Auto">
+            <StackPanel Orientation="Vertical">
+                <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="Kontakt" x:Name="radioMerker" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioMarker_Checked" />
+                <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="Negovaný" x:Name="radioMerkerNeg" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioMarker_Checked" />                
+            </StackPanel>
+        </GroupBox>
+        <GroupBox x:Name="groupBoxFunkcia" Header="Funkcie" Grid.Column="4" Grid.Row="1" Height="Auto" Width="235" Margin="0,0,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <WrapPanel Orientation="Vertical" Grid.Column="0">
+                    <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="Časovac" x:Name="radioCasovac" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioCasovac_Checked" />
+                    <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="Časovac Negovaný" x:Name="radioCasovacNeg" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioCasovac_Checked" />
+                </WrapPanel>
+                <WrapPanel Orientation="Vertical" Grid.Column="1">
+                    <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="Čítač" x:Name="radioCitac" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioCitac_Checked" />
+                    <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="Čítač Negovaný" x:Name="radioCitacNeg" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioCitac_Checked" />
+                </WrapPanel>                
+                <WrapPanel HorizontalAlignment="Left" Grid.Column="0" Grid.Row="1" Width="120">
+                    <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="Sériovy spoj" x:Name="radioSeriovySpoj" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" Checked="radioSeriovy_Checked" />
+                </WrapPanel>
+            </Grid>
+        </GroupBox>
+        <!--
+        <Path Grid.Column="4" Grid.Row="1"  Grid.RowSpan="1" Stroke="SlateGray" StrokeThickness="2" Stretch="Fill" Margin="0,0,0,0">
+            <Path.Data>
+                <LineGeometry StartPoint="0,0" EndPoint="0,1" />
+            </Path.Data>
+        </Path>
+        -->
+    </Grid>
+</Window>

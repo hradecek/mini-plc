@@ -1,0 +1,1041 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:projekt="clr-namespace:SOC"
+        x:Class="SOC.MainWindow"
+        Title="Bez názvu" WindowState="Maximized" Width="760" Height="982" FontStyle="Normal" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Cursor="Arrow" FontFamily="Segoe UI" Icon="/MiniPLC;component/Icon.ico" Closing="Window_Closing"
+    MinWidth="480" Visibility="Visible">
+    <Window.Resources>
+        <ResourceDictionary Source="Resources.xaml" />
+    </Window.Resources>
+    <Window.Effect>
+        <DropShadowEffect Color="Silver" BlurRadius="30"/>
+    </Window.Effect>
+    
+    <!--  Mriezka celeho okna -->
+    <Grid Background="Silver">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>        
+        <TabControl Grid.Row="1" Style="{DynamicResource TabsControl}" HorizontalAlignment="Stretch" Name="tabControl1" VerticalAlignment="Stretch" SelectionChanged="tabControl1_SelectionChanged">                        
+           <!-- Schema -->           
+            <TabItem Style="{DynamicResource TabsItem}" x:Name="tabItem_Schemes" Header="Schemy">
+                <!-- Cela mriezka -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0" />
+                        <RowDefinition Height="90" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>                    
+                    <!-- Mriezka pre ovladacie prvky -->
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="25" />
+                        </Grid.RowDefinitions>                            
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="400" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Style="{DynamicResource SimpleButton}" Grid.Row="0" Grid.Column="0" Height="23" Width="75" Content="Preklad" Margin="10, 5, 0, 0" HorizontalAlignment="Left" Name="buttonKompiluj" VerticalAlignment="Top" Click="buttonKompiluj_Click" />
+                        <Button Style="{DynamicResource SimpleButton}" Grid.Row="1" Grid.Column="0" Height="23" Width="75" Content="Nahraj" Margin="10, 0, 0, 0" HorizontalAlignment="Left" Name="buttonNahraj" VerticalAlignment="Top" Click="buttonNahraj_Click" />
+                        <ComboBox Style="{DynamicResource SimpleComboBox}" Grid.Row="1" Grid.Column="1" Height="23" Width="120" Margin="5, 0" HorizontalAlignment="Left" Name="comboBoxNapalovanie" VerticalAlignment="Top" SelectionChanged="comboBox1_SelectionChanged">
+                            <ComboBoxItem Content="COM1" />
+                            <ComboBoxItem Content="COM2" />
+                            <ComboBoxItem Content="COM3" />
+                            <ComboBoxItem Content="COM4" />
+                            <ComboBoxItem Content="COM5" />
+                            <ComboBoxItem Content="COM6" />
+                            <ComboBoxItem Content="COM7" />
+                            <ComboBoxItem Content="COM8" />
+                            <ComboBoxItem Content="COM9" />
+                        </ComboBox>
+                        <ProgressBar Style="{DynamicResource SimpleProgressBar}" Grid.Row="2" Grid.ColumnSpan="2" Height="15" Margin="10, 0, 0, 0" IsIndeterminate="False" HorizontalAlignment="Left" Name="progressBar1" VerticalAlignment="Center" Width="410" Grid.RowSpan="2" />
+                        <Path Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Stroke="SlateGray" StrokeThickness="2" Stretch="Fill" x:Name="pathWidth">
+                            <Path.Data>
+                                <LineGeometry StartPoint="0,1" EndPoint="1,1" />
+                            </Path.Data>
+                        </Path>                        
+                    </Grid>
+                    <!-- Mriezka pre schemy -->
+                    <Grid Grid.Row="2">    
+                        <Grid.RowDefinitions>                            
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>                            
+                        </Grid.ColumnDefinitions>
+                        <!-- Tabcontrol pre riadkove Schemy -->
+                        <TabControl Name="tabControl2" VerticalAlignment="Stretch" TabStripPlacement="Bottom" HorizontalContentAlignment="Center">                           
+                            <TabControl.BorderBrush>
+                                <SolidColorBrush />
+                            </TabControl.BorderBrush>
+                            <TabControl.Background>
+                                <SolidColorBrush />
+                            </TabControl.Background>
+                            <!-- Vystupy -->
+                            <TabItem Style="{DynamicResource TabsItemSchemes}" Header="Výstupy">                                
+                                <ScrollViewer Style="{DynamicResource SimpleScrollViewer}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Width="{Binding ElementName=pathWidth}">                                    
+                                    <WrapPanel>
+                                        <WrapPanel.Resources>
+                                            <Style TargetType="{x:Type Grid}">
+                                                <Setter Property="Margin" Value="5,5" />                                                
+                                            </Style>
+                                        </WrapPanel.Resources>
+                                        <!-- Vystup cislo 1 -->                                        
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>                                                
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                            </Grid.RowDefinitions>
+                                            <!-- KONTAKTY -->
+                                            <Label Content="Vystup cislo 1" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                            <!-- 1 - Prvy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix0_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix0_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix0_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"/>
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix0_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"/>
+                                            <!-- 2 - Druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" x:Name="matrix0_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" x:Name="matrix0_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"/>
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" x:Name="matrix0_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"/>
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" x:Name="matrix0_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"/>
+                                            <!-- 3 - Treti riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" x:Name="matrix0_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"/>
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" x:Name="matrix0_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"/>
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" x:Name="matrix0_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"/>
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" x:Name="matrix0_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"/>
+                                            <!-- PARALELNE SPOJE -->
+                                            <!-- 1 - Prvy Riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel0_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel0_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel0_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel0_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel0_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- 2 - druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel0_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel0_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel0_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel0_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel0_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- Vystup -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output1" MouseLeftButtonDown="vyber_MouseLeftButtonDown">
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\vystup1.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Grid>
+                                        <!-- Vystup cislo 2 -->
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                            </Grid.RowDefinitions>
+                                            <!-- KONTAKTY -->
+                                            <Label Content="Vystup cislo 2" Grid.Row="0" Grid.ColumnSpan="5" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                            <!-- 1 - Prvy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix1_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix1_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix1_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix1_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 2 - Druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix1_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix1_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix1_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix1_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 3 - Treti riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix1_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix1_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix1_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix1_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- PARALELNE SPOJE -->
+                                            <!-- 1 - Prvy Riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel1_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel1_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel1_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel1_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel1_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- 2 - druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel1_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel1_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel1_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel1_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel1_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- Vystup -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output2">
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\vystup2.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Grid>
+                                        <!-- Vystup cislo 3 -->                                        
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                            </Grid.RowDefinitions>
+                                            <!-- KONTAKTY -->
+                                            <Label Content="Vystup cislo 3" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                            <!-- 1 - Prvy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix2_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix2_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix2_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix2_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 2 - Druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix2_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix2_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix2_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix2_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 3 - Treti riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix2_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"  />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix2_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"  />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix2_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix2_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- PARALELNE SPOJE -->
+                                            <!-- 1 - Prvy Riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel2_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel2_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel2_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel2_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel2_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- 2 - druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel2_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel2_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel2_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel2_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+											<Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel2_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- Vystup -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output3" >
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\vystup3.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Grid>
+                                    </WrapPanel>                                        
+                                </ScrollViewer>
+                            </TabItem>   
+                            <!-- Markery -->
+                            <TabItem Style="{DynamicResource TabsItemSchemes}" Header="Markery">
+                                <ScrollViewer Style="{DynamicResource SimpleScrollViewer}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxWidth="{Binding ElementName=pathWidth}">
+                                    <WrapPanel>
+                                        <WrapPanel.Resources>
+                                            <Style TargetType="{x:Type Grid}">
+                                                <Setter Property="Margin" Value="5,5" />
+                                            </Style>
+                                        </WrapPanel.Resources>
+                                        <!-- Merker 1 SET + RESET -->
+                                        <WrapPanel>
+                                            <!-- Merker 1 SET -->
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="75"/>
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="75" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="75" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="75" />
+                                            <ColumnDefinition Width="5" />
+                                            <ColumnDefinition Width="75" />
+                                            <ColumnDefinition Width="5" />
+                                        </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                            </Grid.RowDefinitions>
+                                            <!-- KONTAKTY -->
+                                            <Label Content="Marker 1 - SET" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                            <!-- 1 - Prvy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix4_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix4_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix4_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix4_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 2 - Druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix4_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix4_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix4_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix4_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 3 - Treti riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix4_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix4_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix4_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix4_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- PARALELNE SPOJE -->
+                                            <!-- 1 - Prvy Riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel4_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel4_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel4_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel4_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel4_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- 2 - druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel4_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel4_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel4_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel4_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel4_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- Vystup -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output5" >
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\vystupSetM1.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Grid>
+                                            <!-- Merker 1 RESET -->                                    
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition Height="75" />
+                                            <RowDefinition Height="10" />
+                                            <RowDefinition Height="75" />
+                                            <RowDefinition Height="10" />
+                                            <RowDefinition Height="75" />
+                                        </Grid.RowDefinitions>
+                                            <!-- KONTAKTY -->
+                                            <Label Content="Marker 1 - RESET" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                            <!-- 1 - Prvy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix5_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix5_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix5_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix5_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 2 - Druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix5_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix5_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix5_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix5_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!--3 - Treti riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix5_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix5_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix5_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix5_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- PARALELNE SPOJE -->
+                                            <!-- 1 - Prvy Riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel5_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel5_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel5_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel5_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel5_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- 2 - druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel5_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel5_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel5_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel5_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel5_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- Vystup -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output6" >
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\vystupResetM1.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>                                  
+                                        </Grid>
+                                        </WrapPanel>
+                                        <!-- Merker 2 SET + RESET -->
+                                        <WrapPanel>
+                                            <!-- Merker 2 SET -->                                        
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                            </Grid.RowDefinitions>
+                                            <!-- KONTAKTY -->
+                                            <Label Content="Marker 2 - SET" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                            <!-- 1 - Prvy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix6_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix6_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix6_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix6_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 2 - Druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix6_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix6_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix6_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix6_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 3 - Treti riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix6_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix6_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix6_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix6_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- PARALELNE SPOJE -->
+                                            <!-- 1 - Prvy Riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel6_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel6_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel6_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel6_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel6_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- 2 - druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel6_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel6_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel6_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel6_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel6_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- Vystup -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output7" >
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\vystupSetM2.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Grid>
+                                            <!-- Merker 2 RESET -->                                        
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                            </Grid.RowDefinitions>
+                                            <!-- KONTAKTY -->
+                                            <Label Content="Marker 2 - RESET" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                            <!-- 1 - Prvy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix7_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix7_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix7_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix7_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" />
+                                            <!-- 2 - Druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix7_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix7_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix7_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix7_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 3 - Treti riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix7_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix7_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix7_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix7_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- PARALELNE SPOJE -->
+                                            <!-- 1 - Prvy Riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel7_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel7_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel7_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel7_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel7_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- 2 - druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel7_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel7_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel7_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel7_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel7_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- Vystup -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output8" >
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\vystupResetM2.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Grid>
+                                        </WrapPanel>
+                                        <!-- Merker 3 SET + RESET -->
+                                        <WrapPanel>
+                                            <!-- Merker 3 SET -->                                        
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                            </Grid.RowDefinitions>
+                                            <!-- KONTAKTY -->
+                                            <Label Content="Marker 3 - SET" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                            <!-- 1 - Prvy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix8_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix8_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix8_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix8_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 2 - Druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix8_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix8_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix8_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix8_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 3 - Treti riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix8_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix8_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix8_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix8_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- PARALELNE SPOJE -->
+                                            <!-- 1 - Prvy Riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel8_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel8_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel8_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel8_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel8_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- 2 - druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel8_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel8_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel8_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel8_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel8_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- Vystup -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output9" >
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\vystupSetM3.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Grid>
+                                            <!-- Merker 3 RESET -->                                        
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                            </Grid.RowDefinitions>
+                                            <!-- KONTAKTY -->
+                                            <Label Content="Marker 3 -RESET" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="175" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                            <!-- 1 - Prvy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix9_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix9_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix9_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix9_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 2 - Druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix9_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix9_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"  />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix9_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown"  />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix9_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 3 - Treti riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix9_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix9_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix9_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix9_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- PARALELNE SPOJE -->
+                                            <!-- 1 - Prvy Riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel9_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel9_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel9_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel9_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel9_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- 2 - druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel9_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel9_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel9_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel9_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel9_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- Vystup -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output10" >
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\vystupResetM3.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Grid>
+                                        </WrapPanel>
+                                    </WrapPanel>
+                                </ScrollViewer>
+                            </TabItem>
+                            <!-- Casovace -->
+                            <TabItem Style="{DynamicResource TabsItemSchemes}" Header="Časovače">
+                                <ScrollViewer Style="{DynamicResource SimpleScrollViewer}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Width="{Binding ElementName=pathWidth}">
+                                    <WrapPanel>
+                                        <WrapPanel.Resources>
+                                            <Style TargetType="{x:Type Grid}">
+                                                <Setter Property="Margin" Value="5,5" />
+                                            </Style>
+                                        </WrapPanel.Resources>
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                                <ColumnDefinition Width="75" />
+                                                <ColumnDefinition Width="5" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="30" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                                <RowDefinition Height="10" />
+                                                <RowDefinition Height="75" />
+                                            </Grid.RowDefinitions>
+                                            <!-- KONTAKTY -->
+                                            <Label Content="Casovač 1" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                            <!-- 1 - Prvy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix3_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix3_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix3_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix3_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 2 - Druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix3_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix3_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix3_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix3_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- 3 - Treti riadok -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix3_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix3_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix3_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix3_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                            <!-- PARALELNE SPOJE -->
+                                            <!-- 1 - Prvy Riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel3_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel3_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel3_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel3_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel3_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- 2 - druhy riadok -->
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel3_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="2" Grid.RowSpan="3" x:Name="parallel3_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="2" Grid.RowSpan="3" x:Name="parallel3_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="2" Grid.RowSpan="3" x:Name="parallel3_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="2" Grid.RowSpan="3" x:Name="parallel3_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                            <!-- Vystup -->
+                                            <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output4" >
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\timerVystup1.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <TextBox Style="{DynamicResource SimpleTextBox}" Grid.Row="3" TextAlignment="Center" Grid.Column="9" Height="25" VerticalAlignment="Top" Name="editCasovacCas1" />
+                                            <Label Content="sekúnd" Grid.Row="3" Grid.Column="9" VerticalAlignment="Center" Height="30" Width="50"/>
+                                            <GroupBox Grid.Row="3" Grid.Column="9" Grid.RowSpan="3" Header="Typ" x:Name="groupBoxCasovac" Width="Auto" Height="Auto" Margin="0,45,0,0">
+                                                <StackPanel Orientation="Vertical">
+                                                    <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="ON" x:Name="radioOn" Margin="5" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                                    <RadioButton Style="{DynamicResource SimpleRadioButton}" Content="OFF" x:Name="radioOff" Margin="5" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                                </StackPanel>
+                                            </GroupBox>
+                                        </Grid>
+                                    </WrapPanel>
+                                </ScrollViewer>
+                            </TabItem>                            
+                            <!-- Citace -->
+                            <TabItem Style="{DynamicResource TabsItemSchemes}" Header="Čítače">
+                                <ScrollViewer Style="{DynamicResource SimpleScrollViewer}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Width="{Binding ElementName=pathWidth}">
+                                    <WrapPanel>
+                                        <WrapPanel.Resources>
+                                            <Style TargetType="{x:Type Grid}">
+                                                <Setter Property="Margin" Value="5,5" />
+                                            </Style>
+                                        </WrapPanel.Resources>                                       
+                                        <WrapPanel>
+                                            <!-- Citac 1 Vystup -->
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75"/>
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="30" />
+                                                    <RowDefinition Height="75" />
+                                                    <RowDefinition Height="10" />
+                                                    <RowDefinition Height="75" />
+                                                    <RowDefinition Height="10" />
+                                                    <RowDefinition Height="75" />
+                                                </Grid.RowDefinitions>
+                                                <!-- KONTAKTY -->
+                                                <Label Content="Čítač 1 - Výstup" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                                <!-- 1 - Prvy riadok -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix10_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix10_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix10_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix10_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <!-- 2 - Druhy riadok -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix10_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix10_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix10_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix10_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <!-- 3 - Treti riadok -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix10_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix10_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix10_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix10_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <!-- PARALELNE SPOJE -->
+                                                <!-- 1 - Prvy Riadok -->
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel10_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="2" Grid.RowSpan="3" x:Name="parallel10_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="2" Grid.RowSpan="3" x:Name="parallel10_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="2" Grid.RowSpan="3" x:Name="parallel10_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="2" Grid.RowSpan="3" x:Name="parallel10_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <!-- 2 - druhy riadok -->
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel10_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel10_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel10_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel10_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel10_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <!-- Vystup -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output11" >
+                                                    <Rectangle.Fill>
+                                                        <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\citacVystup1.png" />
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                                <TextBox Style="{DynamicResource SimpleTextBox}" Grid.Row="3" TextAlignment="Center" Grid.Column="9" Height="25" VerticalAlignment="Top" Name="editCitacPocet1" />
+                                                <Label Content="počet" Grid.Row="3" Grid.Column="9" VerticalAlignment="Center" Height="30" Width="50"/>
+                                            </Grid>
+                                            <!-- Citac 1 Reset -->
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75"/>
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="30" />
+                                                    <RowDefinition Height="75" />
+                                                    <RowDefinition Height="10" />
+                                                    <RowDefinition Height="75" />
+                                                    <RowDefinition Height="10" />
+                                                    <RowDefinition Height="75" />
+                                                </Grid.RowDefinitions>
+                                                <!-- KONTAKTY -->
+                                                <Label Content="Čítač 1 - Reset" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                                <!-- 1 - Prvy riadok -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix11_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix11_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix11_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix11_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <!-- 2 - Druhy riadok -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix11_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix11_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix11_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix11_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <!--3 - Treti riadok -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix11_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix11_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix11_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix11_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <!-- PARALELNE SPOJE -->
+                                                <!-- 1 - Prvy Riadok -->
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel11_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel11_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel11_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel11_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel11_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <!-- 2 - druhy riadok -->
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel11_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel11_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel11_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel11_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel11_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <!-- Vystup -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output12" >
+                                                    <Rectangle.Fill>
+                                                        <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\citacReset1.png" />
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                            </Grid>
+                                            <!-- Citac 1 Direction -->
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75"/>
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="75" />
+                                                    <ColumnDefinition Width="5" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="30" />
+                                                    <RowDefinition Height="75" />
+                                                    <RowDefinition Height="10" />
+                                                    <RowDefinition Height="75" />
+                                                    <RowDefinition Height="10" />
+                                                    <RowDefinition Height="75" />
+                                                </Grid.RowDefinitions>
+                                                <!-- KONTAKTY -->                                                
+                                                <Label Content="Čítač 1 - Smer" Grid.Row="0" Grid.ColumnSpan="6" Height="30" Width="170" FontWeight="Bold" FontSize="14" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="SlateGray" />
+                                                <!-- 1 - Prvy riadok -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="1" Name="matrix12_0_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="3" Name="matrix12_1_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="5" Name="matrix12_2_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="7" Name="matrix12_3_0" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <!-- 2 - Druhy riadok -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="1" Name="matrix12_0_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="3" Name="matrix12_1_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="5" Name="matrix12_2_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="3" Grid.Column="7" Name="matrix12_3_1" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <!--3 - Treti riadok -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="1" Name="matrix12_0_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="3" Name="matrix12_1_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="5" Name="matrix12_2_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="5" Grid.Column="7" Name="matrix12_3_2" MouseLeftButtonDown="vyber_MouseLeftButtonDown" MouseRightButtonDown="vyber_MouseRightButtonDown" />
+                                                <!-- PARALELNE SPOJE -->
+                                                <!-- 1 - Prvy Riadok -->
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel12_0_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel12_1_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel12_2_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel12_3_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="1" Grid.RowSpan="3" x:Name="parallel12_4_0" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <!-- 2 - druhy riadok -->
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel12_0_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="2" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel12_1_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="4" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel12_2_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel12_3_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <Rectangle Style="{DynamicResource RectParallel}" Grid.Column="8" Grid.Row="3" Grid.RowSpan="3" x:Name="parallel12_4_1" MouseLeftButtonDown="parallel_MouseLeftButtonDown" MouseRightButtonDown="parallel_MouseRightButtonDown" />
+                                                <!-- Vystup -->
+                                                <Rectangle Style="{DynamicResource RectContact}" Grid.Row="1" Grid.Column="9" Name="output13" >
+                                                    <Rectangle.Fill>
+                                                        <ImageBrush ImageSource="C:\Users\Ivo\Desktop\Projekt\MiniPLC\Bitmaps\citacDirekt1.png" />
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                            </Grid>
+                                        </WrapPanel>
+                                    </WrapPanel>
+                                </ScrollViewer>
+                            </TabItem>
+                        </TabControl>
+                        <Path VerticalAlignment="Bottom" Stroke="SlateGray" StrokeThickness="2" Stretch="Fill" Margin="0, 0, 10, 0">
+                            <Path.Data>
+                                <LineGeometry StartPoint="0,1" EndPoint="1,1" />
+                            </Path.Data>
+                        </Path>
+                    </Grid>
+                </Grid>
+            </TabItem>           
+            <!-- Kontrola I/O -->
+            <TabItem Style="{DynamicResource TabsItem}" x:Name="tabItem_Check" Header="Kontrola I/O">
+                <!-- Mriezka pre I/O -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="288*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="180" />
+                        <ColumnDefinition Width="100*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Vstupy/Výstupy" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.ColumnSpan="4" Grid.RowSpan="1" FontWeight="Bold" />
+                    <Label Content="Funkcie" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto"  Grid.Column="4" Grid.RowSpan="1" FontWeight="Bold" Grid.ColumnSpan="2" />
+                    <Label Content="Časovače" Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Label Content="Čítače" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Label Content="Vstupy" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Label Content="Výstupy" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Label Content="Mekery" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />                    
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Vstup I1" Grid.Column="1" Grid.Row="2" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxI1" IsEnabled="False" IsThreeState="False"/>
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Vstup I2" Grid.Column="1" Grid.Row="3" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxI2" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Vstup I3" Grid.Column="1" Grid.Row="4" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxI3" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Vstup I4" Grid.Column="1" Grid.Row="5" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxI4" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Výstup Q1" Grid.Column="2" Grid.Row="2" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxQ1" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Výstup Q2" Grid.Column="2" Grid.Row="3" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxQ2" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Výstup Q3" Grid.Column="2" Grid.Row="4" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxQ3" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Výstup M1" Grid.Column="3" Grid.Row="2" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxM1" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Výstup M2" Grid.Column="3" Grid.Row="3" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxM2" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Výstup M3" Grid.Column="3" Grid.Row="4" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxM3" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Výstup TMR" Grid.Column="4" Grid.Row="2" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxTMR1" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Kontakt T1" Grid.Column="4" Grid.Row="3" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxT1" IsEnabled="False" IsThreeState="False" />
+                    <Label Style="{DynamicResource SimpleLabel}" Content="Čas:" Grid.Column="4" Grid.Row="4" VerticalAlignment="Center" />
+                    <Label Style="{DynamicResource SimpleLabel}" Content="" Grid.Column="4" Grid.Row="4" VerticalAlignment="Stretch" HorizontalAlignment="Left" Name="labelCas1" Width="70" Margin="30,0,0,0" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Výstup C1" Grid.Column="5" Grid.Row="2" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxC1" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Kontakt C1" Grid.Column="5" Grid.Row="3" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxC1INT" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Smer-dole C1" Grid.Column="5" Grid.Row="4" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxC1DIR" IsEnabled="False" IsThreeState="False" />
+                    <CheckBox Style="{DynamicResource SimpleCheckBox}" Content="Reset C1" Grid.Column="5" Grid.Row="5" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Name="checkBoxC1RESET" IsEnabled="False" IsThreeState="False" />
+                    <Label Style="{DynamicResource SimpleLabel}" Content="Počet:" Grid.Column="5" Grid.Row="6" VerticalAlignment="Center" />
+                    <Label Style="{DynamicResource SimpleLabel}" Content="" Grid.Column="5" Grid.Row="6" VerticalAlignment="Stretch" HorizontalAlignment="Left" Name="labelPocet1" Width="70" Margin="40,0,0,0" />
+                    <ComboBox Style="{DynamicResource SimpleComboBox}" Grid.Column="6" Height="23" HorizontalAlignment="Left" Name="comboBoxKomunikacia" VerticalAlignment="Center" Width="120" Margin="47,3,0,25" Grid.RowSpan="2" SelectionChanged="comboBoxKomunikacia_SelectionChanged">
+                        <ComboBoxItem Content="COM1" />
+                        <ComboBoxItem Content="COM2" />
+                        <ComboBoxItem Content="COM3" />
+                        <ComboBoxItem Content="COM4" />
+                        <ComboBoxItem Content="COM5" />
+                        <ComboBoxItem Content="COM6" />
+                        <ComboBoxItem Content="COM7" />
+                        <ComboBoxItem Content="COM8" />
+                        <ComboBoxItem Content="COM9" />
+                    </ComboBox>
+                    <Path Grid.Row="0" Grid.Column="0" Grid.RowSpan="7" HorizontalAlignment="Left" Stroke="SlateGray" StrokeThickness="2" Stretch="Fill">
+                        <Path.Data>
+                            <LineGeometry StartPoint="0,0" EndPoint="0,1" />
+                        </Path.Data>
+                    </Path>
+                    <Path Grid.Row="0" Grid.Column="3" Grid.RowSpan="7" HorizontalAlignment="Right" Stroke="SlateGray" StrokeThickness="2" Stretch="Fill">
+                        <Path.Data>
+                            <LineGeometry StartPoint="0,0" EndPoint="0,1" />
+                        </Path.Data>
+                    </Path>
+                    <Path Grid.Row="0" Grid.Column="5" Grid.RowSpan="7" HorizontalAlignment="Right" Stroke="SlateGray" StrokeThickness="2" Stretch="Fill">
+                        <Path.Data>
+                            <LineGeometry StartPoint="0,0" EndPoint="0,1" />
+                        </Path.Data>
+                    </Path>
+                    <Path Grid.Row="6" Grid.ColumnSpan="6" Grid.Column="0" VerticalAlignment="Bottom" Stroke="SlateGray" StrokeThickness="2" Stretch="Fill">
+                        <Path.Data>
+                            <LineGeometry StartPoint="0,1" EndPoint="1,1" />
+                        </Path.Data>
+                    </Path>
+                    <Path Grid.Row="1" Grid.ColumnSpan="6" Grid.Column="0" VerticalAlignment="Bottom" Stroke="SlateGray" StrokeThickness="2" Stretch="Fill">
+                        <Path.Data>
+                            <LineGeometry StartPoint="0,1" EndPoint="1,1" />
+                        </Path.Data>
+                    </Path>
+                    <Label Content="Port: " Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="ExtraBold" Height="28" Name="label2" Margin="0,0,0,22" Grid.RowSpan="2" />
+                </Grid>
+            </TabItem>            
+        </TabControl>
+        <Menu Grid.Row="0" Height="23" HorizontalAlignment="Stretch" Name="menuMain" VerticalAlignment="Stretch" Width="Auto" IsMainMenu="True">
+            <MenuItem Header="_Súbor" IsCheckable="False">
+                <MenuItem Header="_Nový" Click="menuNew_Click" />
+                <MenuItem Header="_Uložiť" Click="menuSave_Click" />
+                <MenuItem Header="Uložiť _ako..." Click="menuSaveAs_Click" />
+                <MenuItem Header="_Otvoriť" Click="menuLoad_Click" />
+                <Separator />
+                <MenuItem Header="_Koniec" Click="Window_Closing" />
+            </MenuItem>
+            <MenuItem Header="_O programe">
+                <MenuItem Header="_Info..." Click="MenuItem_Click" />
+            </MenuItem>
+        </Menu>
+    </Grid>
+</Window>
+   
